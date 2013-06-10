@@ -6,6 +6,7 @@ import java.util.Map;
 import net.minecraft.world.World;
 
 import colossali.Tools.common.CommonProxy;
+import colossali.Tools.common.mod_Tools;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -43,7 +44,7 @@ public class ClientProxy extends CommonProxy{
 		TickRegistry.registerTickHandler(new ClientTickHandler(EnumSet.of(TickType.CLIENT)), Side.CLIENT);
 
 		//Load up our names
-		//LanguageRegistry.addName(mod_Tools.SpiderManMask, "\u00a74Spider Man Mask");
+		LanguageRegistry.addName(mod_Tools.GrapplingHookID, "\u00a78Grappling Hook"); //the \u00a7 is a § and 8 is colour gray search "minecraft formatting codes" but it can't be compiles so we have to use the "escape sequence"
 
 		//Load up our renderes
 		//RenderingRegistry.registerEntityRenderingHandler(EntityWebBall.class, new RenderWebBall(mod_spiderman.WebBallItem));
