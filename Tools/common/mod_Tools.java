@@ -3,18 +3,20 @@ package colossali.Tools.common;
 import java.util.EnumSet;
 import java.util.logging.Level;
 
-import colossali.Tools.items.ItemGrapplingHook;
-
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import colossali.Tools.items.ItemGrapplingHook;
+import colossali.Tools.items.ItemToolComponents;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -32,9 +34,19 @@ public class mod_Tools {
 
 	/* Make some item IDs */
 	public static int GrapplingHookID = 7968;
+	public static int HookID = 7969;
 
 	/* Make the actual items */
-	public Item GrapplingHook;
+	public static Item GrapplingHook;
+	public static Item ItemHook;
+
+	/*Make a custom creative tab */
+
+	public static CreativeTabs tabCustomTools = new CreativeTabs("tabCustomTools") { //makes a creative tab with the name "tabCustomTools"
+		public ItemStack getIconItemStack() {
+			return new ItemStack(mod_Tools.GrapplingHook, 1, 0); //sets the icon for the tab. Check any item class to see how to use it. Also check client proxy for how to set the name
+		}
+	};
 
 	/** Instance of this mod class that forge uses. Look up "Object Oriented Programming" and then "Java Singleton" **/
 	@Instance("Tools!")
@@ -58,6 +70,8 @@ public class mod_Tools {
 
 			//set item and such values, you can do almost anything, names, vales, etc. Doesn't have to be IDs
 			GrapplingHookID = config.getItem("Moving Tools", "Grappling Hook Item", 7968).getInt();
+			HookID = config.getItem("Moving Tools", "Hook Item", 7969).getInt();
+
 		}
 		catch(Exception e){
 			//Where to log the error and what level, then print it out in the log
@@ -77,9 +91,11 @@ public class mod_Tools {
 	public void load(FMLInitializationEvent event) {
 		proxy.load(); //load up our proxies
 		TickRegistry.registerTickHandler(new ServerTickHandler(EnumSet.of(TickType.CLIENT)), Side.SERVER); //Server tick can be loaded here
-		
+
 		//Make items
 		GrapplingHook = new ItemGrapplingHook(GrapplingHookID, "grapplinghook").setFull3D().setUnlocalizedName("Grappling Hook");
+		ItemHook = new ItemToolComponents(HookID, "hook").setUnlocalizedName("Hook");
+
 	}
 
 

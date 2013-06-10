@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemGrapplingHook extends Item{
+public class ItemToolComponents extends Item{
 
 	private String itemTexture;
 	
@@ -17,7 +17,7 @@ public class ItemGrapplingHook extends Item{
 	 * @param texture name of item
 	 */
 	
-	public ItemGrapplingHook(int itemID, String texture) {
+	public ItemToolComponents(int itemID, String texture) {
 		super(itemID); //register item ID with instance of item
 		setMaxStackSize(64); //as it says
 		setCreativeTab(mod_Tools.tabCustomTools); //also self explanatory

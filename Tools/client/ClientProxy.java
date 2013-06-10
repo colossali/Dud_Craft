@@ -45,7 +45,7 @@ public class ClientProxy extends CommonProxy{
 
 		//Load up our names
 		LanguageRegistry.addName(mod_Tools.GrapplingHookID, "\u00a78Grappling Hook"); //the \u00a7 is a § and 8 is colour gray search "minecraft formatting codes" but it can't be compiles so we have to use the "escape sequence"
-
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabCustomTools", "en_US", "Tools Mod"); //set name of tabs. first is itemGroup.+name of your tab, then en_US, then the actual name you want to display
 		//Load up our renderes
 		//RenderingRegistry.registerEntityRenderingHandler(EntityWebBall.class, new RenderWebBall(mod_spiderman.WebBallItem));
 		//MinecraftForgeClient.registerItemRenderer(mod_spiderman.WebShooter.itemID,((IItemRenderer) new RenderWebShooter()));
