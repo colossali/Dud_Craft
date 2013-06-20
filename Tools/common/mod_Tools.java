@@ -4,11 +4,15 @@ import java.util.EnumSet;
 import java.util.logging.Level;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.StepSound;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
+import colossali.Tools.blocks.BlockGenericOre;
+import colossali.Tools.blocks.GenericOreGenerator;
 import colossali.Tools.items.ItemGrapplingHook;
 import colossali.Tools.items.ItemToolComponents;
 import cpw.mods.fml.common.FMLLog;
@@ -23,6 +27,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
@@ -37,10 +42,16 @@ public class mod_Tools {
 	/* Make some item IDs */
 	public static int GrapplingHookID = 7968;
 	public static int HookID = 7969;
+	
+	/* Make some block IDs */
+	public static int GenericOreBlockID = 7410;
 
 	/* Make the actual items */
 	public static Item ItemGrapplingHook;
 	public static Item ItemHook;
+	
+	/* Make the actual blocks */
+	public static Block GenericOreBlock;
 
 	/*Make a custom creative tab */
 	public static CreativeTabs tabCustomTools = new CreativeTabs("tabCustomTools") { //makes a creative tab with the name "tabCustomTools"
@@ -72,11 +83,12 @@ public class mod_Tools {
 			//set item and such values, you can do almost anything, names, vales, etc. Doesn't have to be IDs
 			GrapplingHookID = config.getItem("Moving Tools", "Grappling Hook Item", 7968).getInt();
 			HookID = config.getItem("Moving Tools", "Hook Item", 7969).getInt();
+			GenericOreBlockID = config.getBlock("Tool Ores", "Generic Ore", 7410).getInt();
 
 		}
 		catch(Exception e){
 			//Where to log the error and what level, then print it out in the log
-			FMLLog.log(Level.SEVERE, e, "Problems in config", new Object[0]);
+			FMLLog.log(Level.SEVERE, e, "Tools: Problems loading the config!", new Object[0]);
 			FMLLog.severe(e.getMessage(), new Object[0]);
 		}
 		finally{
@@ -96,6 +108,9 @@ public class mod_Tools {
 		//Make items
 		ItemGrapplingHook = new ItemGrapplingHook(GrapplingHookID, "grapplinghook").setFull3D().setUnlocalizedName("Grappling Hook");
 		ItemHook = new ItemToolComponents(HookID, "hook").setUnlocalizedName("Hook");
+		
+		//Make blocks
+		GenericOreBlock = new BlockGenericOre(GenericOreBlockID, Material.iron, "redore", Block.soundAnvilFootstep).setUnlocalizedName("Red Ore");
 
 		//Making Custom Recipes
 
@@ -110,7 +125,9 @@ public class mod_Tools {
 		//Shapeless recipe, useful for stuff like making ammo or crappy items to make better items (I use to make bullets in SHIM)
 		//ModLoader.addShapelessRecipe(new ItemStack(Block.sponge, 1), new ItemStack(Item.dyePowder, 1, 0), Item.reed);
 		//If you want to use more than one item in a slot in the crafting bench, use > new ItemStack(Yadda yadda) < instead of Item/Block, whatever.
-
+		
+		//Generate ores!
+		GameRegistry.registerWorldGenerator(new GenericOreGenerator()); //easy!
 	}
 
 
