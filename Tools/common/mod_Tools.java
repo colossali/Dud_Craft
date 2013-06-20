@@ -3,9 +3,11 @@ package colossali.Tools.common;
 import java.util.EnumSet;
 import java.util.logging.Level;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import colossali.Tools.items.ItemGrapplingHook;
 import colossali.Tools.items.ItemToolComponents;
@@ -37,14 +39,13 @@ public class mod_Tools {
 	public static int HookID = 7969;
 
 	/* Make the actual items */
-	public static Item GrapplingHook;
+	public static Item ItemGrapplingHook;
 	public static Item ItemHook;
 
 	/*Make a custom creative tab */
-
 	public static CreativeTabs tabCustomTools = new CreativeTabs("tabCustomTools") { //makes a creative tab with the name "tabCustomTools"
 		public ItemStack getIconItemStack() {
-			return new ItemStack(mod_Tools.GrapplingHook, 1, 0); //sets the icon for the tab. Check any item class to see how to use it. Also check client proxy for how to set the name
+			return new ItemStack(mod_Tools.ItemGrapplingHook, 1, 0); //sets the icon for the tab. Check any item class to see how to use it. Also check client proxy for how to set the name
 		}
 	};
 
@@ -93,8 +94,22 @@ public class mod_Tools {
 		TickRegistry.registerTickHandler(new ServerTickHandler(EnumSet.of(TickType.CLIENT)), Side.SERVER); //Server tick can be loaded here
 
 		//Make items
-		GrapplingHook = new ItemGrapplingHook(GrapplingHookID, "grapplinghook").setFull3D().setUnlocalizedName("Grappling Hook");
+		ItemGrapplingHook = new ItemGrapplingHook(GrapplingHookID, "grapplinghook").setFull3D().setUnlocalizedName("Grappling Hook");
 		ItemHook = new ItemToolComponents(HookID, "hook").setUnlocalizedName("Hook");
+
+		//Making Custom Recipes
+
+		ModLoader.addRecipe(new ItemStack(ItemHook, 1), new Object[]{ //What to give and how much of, then an array of items to craft it
+			"i i", " i ", "lsl", 'i', Item.ingotIron, 'l', Item.leather, 's', Item.silk //imagine the "space between these" as rows in crafting bench. Spaces mean empty
+		});
+		
+		ModLoader.addRecipe(new ItemStack(ItemGrapplingHook, 1), new Object[]{
+			"ihi", "iri", "iss", 'i', Item.ingotIron, 'h', ItemHook, 'r', Item.redstone, 's', Item.stick
+		});
+		
+		//Shapeless recipe, useful for stuff like making ammo or crappy items to make better items (I use to make bullets in SHIM)
+		//ModLoader.addShapelessRecipe(new ItemStack(Block.sponge, 1), new ItemStack(Item.dyePowder, 1, 0), Item.reed);
+		//If you want to use more than one item in a slot in the crafting bench, use > new ItemStack(Yadda yadda) < instead of Item/Block, whatever.
 
 	}
 
