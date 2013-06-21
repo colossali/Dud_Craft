@@ -28,4 +28,9 @@ public class CommonProxy {
     public World getClientWorld(){
         return null;
     }
+    
+    //Add Achievement localizations method
+    static void addAchievementLocalizations(){
+    	
+    }
 }

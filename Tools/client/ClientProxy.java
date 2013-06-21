@@ -6,7 +6,7 @@ import java.util.Map;
 import net.minecraft.world.World;
 
 import colossali.Tools.common.CommonProxy;
-import colossali.Tools.common.mod_Tools;
+import colossali.Tools.common.mod_DudCraft;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -44,8 +44,8 @@ public class ClientProxy extends CommonProxy{
 		TickRegistry.registerTickHandler(new ClientTickHandler(EnumSet.of(TickType.CLIENT)), Side.CLIENT);
 
 		//Load up our names
-		LanguageRegistry.addName(mod_Tools.GrapplingHookID, "\u00a78Grappling Hook"); //the \u00a7 is a § and 8 is colour gray search "minecraft formatting codes" but it can't be compiles so we have to use the "escape sequence"
-		LanguageRegistry.addName(mod_Tools.HookID, "\u00a78Hook");
+		LanguageRegistry.addName(mod_DudCraft.GrapplingHookID, "\u00a78Grappling Hook"); //the \u00a7 is a § and 8 is colour gray search "minecraft formatting codes" but it can't be compiles so we have to use the "escape sequence"
+		LanguageRegistry.addName(mod_DudCraft.HookID, "\u00a78Hook");
 		
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabCustomTools", "en_US", "Tools Mod"); //set name of tabs. first is itemGroup.+name of your tab, then en_US, then the actual name you want to display
 		//Load up our renderes
@@ -69,5 +69,32 @@ public class ClientProxy extends CommonProxy{
 	{
 		return FMLClientHandler.instance().getClient().theWorld;
 	}
+	
+	/**
+	 * Localizes Achievement Name
+	 * @param ach Name of Achievement (as in mod_ file)
+	 * @param name Actual name you want it to have (user sees)
+	 */
+	private static void addAchievementName(String ach, String name)
+	{
+	        LanguageRegistry.instance().addStringLocalization("achievement." + ach, "en_US", name);
+	}
+
+	/**
+	 * Localizes Achievement Description
+	 * @param ach Name of Achievement (as in mod_ file)
+	 * @param desc Description of the achievement
+	 */
+	private static void addAchievementDesc(String ach, String desc)
+	{
+	        LanguageRegistry.instance().addStringLocalization("achievement." + ach + ".desc", "en_US", desc);
+	}
+	
+	//Override the common proxy method
+    static void addAchievementLocalizations()
+    {
+                    addAchievementName("GetGrapple", "*Mission impossible theme*");
+                    addAchievementDesc("GetHook", "You Made a Hook!");
+    }
 
 }

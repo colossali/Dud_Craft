@@ -2,7 +2,7 @@ package colossali.Tools.blocks;
 
 import java.util.Random;
 
-import colossali.Tools.common.mod_Tools;
+import colossali.Tools.common.mod_DudCraft;
 
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -45,7 +45,7 @@ public class GenericOreGenerator implements IWorldGenerator{
 			int firstBlockYCoord = random.nextInt(64); //Height to which ore spawns, example, diamonds stop at 35
 			int firstBlockZCoord = j + random.nextInt(16); //chunk width DON'T CHANGE
 			
-        	(new WorldGenMinable(mod_Tools.GenericOreBlock.blockID, 13))/* Block ID and num. of blocks per vein */.generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord); //Generate the block in given coords.
+        	(new WorldGenMinable(mod_DudCraft.GenericOreBlock.blockID, 13))/* Block ID and num. of blocks per vein */.generate(world, random, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord); //Generate the block in given coords.
 
 		}
 		

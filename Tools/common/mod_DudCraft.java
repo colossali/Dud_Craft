@@ -1,20 +1,24 @@
 package colossali.Tools.common;
 
+import java.rmi.dgc.DGC;
 import java.util.EnumSet;
 import java.util.logging.Level;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.StepSound;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.ModLoader;
+import net.minecraft.stats.Achievement;
+import net.minecraft.stats.AchievementList;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.Configuration;
 import colossali.Tools.blocks.BlockGenericOre;
 import colossali.Tools.blocks.GenericOreGenerator;
 import colossali.Tools.items.ItemGrapplingHook;
 import colossali.Tools.items.ItemToolComponents;
+import colossali.Tools.util.DCraftHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -37,7 +41,7 @@ import cpw.mods.fml.relauncher.Side;
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, /* clientSide = need mod to join a server, always true serverSide = server needs mod to allow client to join, always false*/
 serverPacketHandlerSpec = @NetworkMod.SidedPacketHandler(channels = {"SpiderMan_C"}, packetHandler = ToolsPacketHandler.class)) /* Class to send server packets (bit arrays of info) to so that the server can read them) */
 
-public class mod_Tools {
+public class mod_DudCraft {
 
 	/* Make some item IDs */
 	public static int GrapplingHookID = 7968;
@@ -45,6 +49,10 @@ public class mod_Tools {
 	
 	/* Make some block IDs */
 	public static int GenericOreBlockID = 7410;
+	
+	/* Make Achievement IDs */
+	public static int getHookID = 7510;
+	public static int getGrappleID = 7511;
 
 	/* Make the actual items */
 	public static Item ItemGrapplingHook;
@@ -52,17 +60,25 @@ public class mod_Tools {
 	
 	/* Make the actual blocks */
 	public static Block GenericOreBlock;
-
+	
+	/*Make an achievement!*/
+	public static AchievementPage dcPage;
+	public static Achievement getGrapple;
+	public static Achievement getHook;
+	
+	/*Make a Crafting and Smelting Handler*/
+	public static DCraftHandler dcHandler;
+	
 	/*Make a custom creative tab */
 	public static CreativeTabs tabCustomTools = new CreativeTabs("tabCustomTools") { //makes a creative tab with the name "tabCustomTools"
 		public ItemStack getIconItemStack() {
-			return new ItemStack(mod_Tools.ItemGrapplingHook, 1, 0); //sets the icon for the tab. Check any item class to see how to use it. Also check client proxy for how to set the name
+			return new ItemStack(mod_DudCraft.ItemGrapplingHook, 1, 0); //sets the icon for the tab. Check any item class to see how to use it. Also check client proxy for how to set the name
 		}
 	};
 
 	/** Instance of this mod class that forge uses. Look up "Object Oriented Programming" and then "Java Singleton" **/
 	@Instance("Tools!")
-	public static mod_Tools instance;
+	public static mod_DudCraft instance;
 
 	/**Says where the client and server proxies are located, look up "Proxies" **/
 	@SidedProxy(clientSide = "colossali.Tools.client.ClientProxy", serverSide="colossali.Tools.common.CommonProxy")
@@ -83,7 +99,13 @@ public class mod_Tools {
 			//set item and such values, you can do almost anything, names, vales, etc. Doesn't have to be IDs
 			GrapplingHookID = config.getItem("Moving Tools", "Grappling Hook Item", 7968).getInt();
 			HookID = config.getItem("Moving Tools", "Hook Item", 7969).getInt();
+			
+			//Blocks
 			GenericOreBlockID = config.getBlock("Tool Ores", "Generic Ore", 7410).getInt();
+			
+			//Achievements
+			getHookID = config.get(Configuration.CATEGORY_GENERAL, "Hook Achievement", 7510).getInt();
+			getGrappleID = config.get(Configuration.CATEGORY_GENERAL, "Grappling Hook Achievement", 7511).getInt();
 
 		}
 		catch(Exception e){
@@ -103,6 +125,8 @@ public class mod_Tools {
 	@Init
 	public void load(FMLInitializationEvent event) {
 		proxy.load(); //load up our proxies
+		proxy.addAchievementLocalizations(); //Localize achievements
+		
 		TickRegistry.registerTickHandler(new ServerTickHandler(EnumSet.of(TickType.CLIENT)), Side.SERVER); //Server tick can be loaded here
 
 		//Make items
@@ -128,6 +152,20 @@ public class mod_Tools {
 		
 		//Generate ores!
 		GameRegistry.registerWorldGenerator(new GenericOreGenerator()); //easy!
+		
+		//Instantiate achievements	
+		/* ID, name (not one that appears), X, Y, Icon, Prerequisites them register*/
+		getHook = new Achievement(getHookID,"GetHook", 0, 0, this.ItemHook, AchievementList.buildWorkBench).registerAchievement();
+		getGrapple = new Achievement(getGrappleID, "GetGrapple", 2, 0, this.ItemGrapplingHook, this.getHook).registerAchievement();
+		
+		//Make a page
+		dcPage = new AchievementPage("Dud Craft", getGrapple, getHook);
+		AchievementPage.registerAchievementPage(dcPage);	//register it
+		
+		//Instantiate Crafting Handler
+		dcHandler = new DCraftHandler();
+		//Register it
+		GameRegistry.registerCraftingHandler(dcHandler);
 	}
 
 

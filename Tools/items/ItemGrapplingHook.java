@@ -1,6 +1,6 @@
 package colossali.Tools.items;
 
-import colossali.Tools.common.mod_Tools;
+import colossali.Tools.common.mod_DudCraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -20,7 +20,7 @@ public class ItemGrapplingHook extends Item{
 	public ItemGrapplingHook(int itemID, String texture) {
 		super(itemID); //register item ID with instance of item
 		setMaxStackSize(64); //as it says
-		setCreativeTab(mod_Tools.tabCustomTools); //also self explanatory
+		setCreativeTab(mod_DudCraft.tabCustomTools); //also self explanatory
 		this.itemTexture = texture; //pass texture name onto icon renderer method
 	}
 	
