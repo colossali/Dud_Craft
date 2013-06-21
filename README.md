@@ -50,7 +50,11 @@ If so, please read this to understand how to use the code along with my video tu
  - Add mob interactions and AI
  - Create custom AI and models
  - Animate custom models
-8. ***Misc***    
+8. ***Misc***
+ - Create a custom Achievement. `Done!` [Everything to do with Achievements][9]
+ - Create a custom Achievement Trigger. `Done!`
+ - Create a custom Achievement Page. `Done!`
+ - Create an Event Handler.
 
 
   [1]: https://github.com/colossali/Tools-Minecraft-Tutorial-Series/commits/
@@ -61,3 +65,4 @@ If so, please read this to understand how to use the code along with my video tu
   [6]: https://github.com/colossali/Tools-Minecraft-Tutorial-Series/tree/2cd5c0842c13b1977bf750b589d39f5aee7a2ec8
   [7]: https://github.com/colossali/Tools-Minecraft-Tutorial-Series/tree/fd31549de53a75e17767c4a22a1c2953b5361308
   [8]: https://github.com/colossali/Tools-Minecraft-Tutorial-Series/tree/c245f926eccd8a16ba2f4b0c9e8964e4fec609c8
+  [9]: https://github.com/colossali.Dud_Craft/tree/cb5ade548c3599a67f9de231fa23ecf4252cc27c
